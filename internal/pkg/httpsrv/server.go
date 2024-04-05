@@ -2,6 +2,7 @@ package httpsrv
 
 import (
 	"context"
+	"flag"
 	"log"
 	"net/http"
 	"os"
@@ -70,8 +71,13 @@ func (s *Server) Start() error {
 		}
 	}()
 
-	s.running.Add(1)
-	go s.mainLoop()
+	numSessions := flag.Int("n", 1, "Number of WebSocket connections to open")
+	flag.Parse()
+
+	s.running.Add(*numSessions)
+	for i := 0; i < *numSessions; i++ {
+		go s.mainLoop()
+	}
 
 	return nil
 }
