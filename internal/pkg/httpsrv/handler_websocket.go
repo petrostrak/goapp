@@ -29,7 +29,8 @@ func (s *Server) handlerWebSocket(w http.ResponseWriter, r *http.Request) {
 		ReadBufferSize:  1024,
 		WriteBufferPool: &sync.Pool{},
 		CheckOrigin: func(r *http.Request) bool {
-			return true
+			origin := r.Header.Get("Origin")
+			return origin == "http://localhost:8080"
 		},
 	}
 
