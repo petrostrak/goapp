@@ -22,6 +22,13 @@ window.addEventListener("load", function(evt) {
         output.appendChild(d);
         output.scroll(0, output.scrollHeight);
     };
+	var hexValue = function(str) {
+    	var hex = '';
+    	for(var i = 0; i < str.length; i++) {
+        	hex += str.charCodeAt(i).toString(16);
+    	}
+		return hex;
+	};
     document.getElementById("open").onclick = function(evt) {
         if (ws) {
             return false;
@@ -35,7 +42,7 @@ window.addEventListener("load", function(evt) {
             ws = null;
         }
         ws.onmessage = function(evt) {
-            print("RESPONSE: " + evt.data);
+            print("RESPONSE: " + hexValue(evt.data));
         }
         ws.onerror = function(evt) {
             print("ERROR: " + evt.data);
