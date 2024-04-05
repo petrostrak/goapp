@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"sync"
 
 	"goapp/internal/pkg/watcher"
 
@@ -25,6 +26,8 @@ func (s *Server) handlerWebSocket(w http.ResponseWriter, r *http.Request) {
 
 	// Start WS.
 	var upgrader = websocket.Upgrader{
+		ReadBufferSize:  1024,
+		WriteBufferPool: &sync.Pool{},
 		CheckOrigin: func(r *http.Request) bool {
 			return true
 		},
